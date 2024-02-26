@@ -1,5 +1,6 @@
 export const test =  (req, res) => {
     res.json({
-        messsage: 'zagadat'
+        messsage: 'zagadat',
+        
     });
  }
