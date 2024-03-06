@@ -1,6 +1,7 @@
 import User from "../Models/user.model.js"; //this was imported from the user.model.js
 import bcryptjs from 'bcryptjs'; // a package used to HASH  a password.
 import { errorHandler } from "../utils/error.js";
+import { jwt } from "jsonwebtoken";
 
 export const signup = async (req, res, next) => {
 
@@ -21,6 +22,33 @@ export const signup = async (req, res, next) => {
         // next(errorHandler(550, 'error from the function'));
      }
   
+}
+
+
+
+export const signin = async (req, res, next) => {
+
+   const{gmail, password} = req.body;
+
+   try {
+      const validUser = await User.findOne({ gmail });
+       if(!validUser) return next(errorHandler(404, "User does not exist"))
+     const validPassword = bcryptjs.compareSync(password, validUser.password)
+      if(!validPassword) return next(errorHandler(401, "Wrong credetials!"))
+
+      const token = jwt.sign({id: validUser._id }, process.env.JWT_secret  )
+      const {password: pass,  ...rest}  = validUser._doc;  //the _doc was gotten from the Isomenia website.
+      res  
+        .cookie('access_token', token, {httpOnly: true })
+        .status(200)
+        .json(...rest);
+
+   } catch (error) {
+   
+         next(error);
+
+   }
+
 }
 
 

@@ -18,7 +18,7 @@ app.use(express.json()); //this will allow json() as the input of the server bec
 
 
 app.listen(3000, () => {
-    console.log("e dey show and listen and changed oo")
+    console.log("e dey show and listeneddddd and changed oo")
 });
  
 
@@ -28,7 +28,7 @@ app.listen(3000, () => {
 //         'message':' world'
 //     })
 //  });
-app.use("/api/auth", authRouter)
+app.use("/api/auth", authRouter);
 
 
 
